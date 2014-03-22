@@ -3,20 +3,36 @@
   <head>
     <title>YouTube web component</title>
     <script src="//test.versal.io/components/versal-runtime/v12.js"></script>
+    <script type="text/javascript" src="//www.youtube.com/iframe_api"></script>
     <link rel="import" href="./vs-youtube.html" />
   </head>
 
   <body>
-
   <h1>&lt;vs-youtube&gt;</h1>
   <p>Hola! This is awesome youtube gadget</p>
 
   <p>It takes one attribute - `videoid`. Set it to the id of the youtube video, and we embed it!</p>
 
-  <input type="text" value="eOG90Q8EfRo" onchange="document.querySelector('vs-youtube').setAttribute('videoid', this.value);" />
+  <form id="property-sheets">
+    <input type="text" name="videoId" value="eOG90Q8EfRo" onchange="document.querySelector('vs-youtube').setAttribute('videoid', this.value);" />
+  </form>
 
   <vs-youtube videoid="eOG90Q8EfRo"></vs-youtube>
-  <vs-youtube></vs-youtube>
 
+  <script>
+  function createPropertySheets(){
+    var form = document.querySelector('#property-sheets');
+    var vsyoutube = document.querySelector('vs-youtube');
+    form.onsubmit = function(e) {
+      e.preventDefault();
+
+      Array.prototype.forEach.call(form.querySelectorAll('[name]'), function(el){
+        vsyoutube.setAttribute(el.name, el.value);
+      });
+    };
+  };
+
+  window.addEventListener('DOMContentLoaded', createPropertySheets);
+  </script>
   </body>
 </html>
